@@ -1,0 +1,614 @@
+<!-- views/constelacoes.hbs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constelações - Mapas Celestes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0a0f2a 0%, #1a1f3a 50%, #0b1a3a 100%);
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Efeito de estrelas */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 4s infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Estrelas cadentes */
+        .shooting-star {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
+            animation: shoot 8s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(-100px) translateY(0) rotate(45deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(100vw) translateY(100vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f0e68c, #ffd700, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #b0c4de;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        /* Linha divisória */
+        .divider {
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            margin: 30px auto;
+        }
+
+        /* Grid de constelações */
+        .constelacoes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            animation: fadeInUp 1s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ffd700;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        /* Ícone da constelação */
+        .constelacao-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .constelacao-icon {
+            transform: rotate(360deg);
+            background: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 30px #ffd700;
+        }
+
+        .constelacao-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: #ffd700;
+        }
+
+        .card h3 {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #ffd700;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .card p {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            text-align: center;
+        }
+
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.8em;
+            color: #b0c4de;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 1.1em;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        /* Seção de destaque */
+        .featured-section {
+            margin-top: 80px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+            padding: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .featured-title {
+            font-size: 2.2em;
+            color: #ffd700;
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .featured-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .featured-text p {
+            color: #e0e0e0;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .featured-image {
+            position: relative;
+        }
+
+        .featured-image svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .footer p {
+            color: #b0c4de;
+            font-size: 0.95em;
+        }
+
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Loading animation */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-top: 3px solid #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .featured-content {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-image {
+                order: -1;
+            }
+
+            .card {
+                margin: 0 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .constelacoes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Estrelas de fundo -->
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>✨ Constelações ✨</h1>
+            <div class="divider"></div>
+            <p>Explore o fascinante mundo das constelações e descubra as histórias escritas nas estrelas. Cada ponto de
+                luz conta uma lenda milenar.</p>
+        </header>
+
+        <!-- Loading (opcional) -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Carregando constelações...</p>
+        </div>
+
+        <!-- Grid de constelações -->
+        <div class="constelacoes-grid" id="constelacoesGrid">
+            <!-- Órion -->
+            <div class="card" onclick="showConstelacao('Órion')">
+                <div class="constelacao-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z" />
+                    </svg>
+                </div>
+                <h3>Órion</h3>
+                <p>O caçador da mitologia grega. Uma das constelações mais brilhantes e reconhecíveis do céu noturno.
+                </p>
+                <div class="card-info">
+                    <div class="info-item">
+                        <div class="info-label">Estrelas principais</div>
+                        <div class="info-value">7</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Área</div>
+                        <div class="info-value">594º</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ursa Maior -->
+            <div class="card" onclick="showConstelacao('Ursa Maior')">
+                <div class="constelacao-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2L13 7L17 5L16 10L21 12L16 14L17 19L13 17L12 22L11 17L7 19L8 14L3 12L8 10L7 5L11 7L12 2Z" />
+                    </svg>
+                </div>
+                <h3>Ursa Maior</h3>
+                <p>Conhecida pelo "Grande Carro", é uma das constelações mais antigas e importantes do hemisfério norte.
+                </p>
+                <div class="card-info">
+                    <div class="info-item">
+                        <div class="info-label">Estrelas principais</div>
+                        <div class="info-value">7</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Área</div>
+                        <div class="info-value">3º</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escorpião -->
+            <div class="card" onclick="showConstelacao('Escorpião')">
+                <div class="constelacao-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2L15 7L20 8L17 13L20 18L14 17L12 22L10 17L4 18L7 13L4 8L9 7L12 2Z" />
+                    </svg>
+                </div>
+                <h3>Escorpião</h3>
+                <p>Uma constelação zodiacal que representa o escorpião que matou Órion, segundo a mitologia grega.</p>
+                <div class="card-info">
+                    <div class="info-item">
+                        <div class="info-label">Estrelas principais</div>
+                        <div class="info-value">8</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Área</div>
+                        <div class="info-value">33º</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cruzeiro do Sul -->
+            <div class="card" onclick="showConstelacao('Cruzeiro do Sul')">
+                <div class="constelacao-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2L15 8L21 9L17 14L18 21L12 18L6 21L7 14L3 9L9 8L12 2Z" />
+                    </svg>
+                </div>
+                <h3>Cruzeiro do Sul</h3>
+                <p>A mais famosa constelação do hemisfério sul, símbolo de navegação e cultura no Brasil.</p>
+                <div class="card-info">
+                    <div class="info-item">
+                        <div class="info-label">Estrelas principais</div>
+                        <div class="info-value">5</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Área</div>
+                        <div class="info-value">88º</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção em destaque -->
+        <section class="featured-section">
+            <h2 class="featured-title">⭐ Estrela em Destaque ⭐</h2>
+            <div class="featured-content">
+                <div class="featured-text">
+                    <p><strong>Sirius</strong> - A estrela mais brilhante do céu noturno, localizada na constelação do
+                        Cão Maior. Seu nome vem do grego "Σείριος" (Seirios), que significa "brilhante" ou "abrasador".
+                    </p>
+                    <p>Sirius é na verdade um sistema binário composto por duas estrelas: Sirius A, uma estrela branca
+                        da sequência principal, e Sirius B, uma anã branca. Está a aproximadamente 8,6 anos-luz de
+                        distância da Terra.</p>
+                    <p>No antigo Egito, o aparecimento de Sirius no céu anunciava as cheias do Nilo, sendo fundamental
+                        para a agricultura e o calendário egípcio.</p>
+                </div>
+                <div class="featured-image">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="15" fill="#ffd700" filter="url(#glow)">
+                            <animate attributeName="r" values="15;18;15" dur="3s" repeatCount="indefinite" />
+                        </circle>
+                        <defs>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🌟 Explore o universo através das constelações | Dados atualizados regularmente 🌟</p>
+            <p style="margin-top: 20px; font-size: 0.85em;">© 2024 Atlas Celeste - Todos os direitos reservados</p>
+            <p style="margin-top: 10px;">
+                <a href="#">Sobre</a> •
+                <a href="#">Mapa do Céu</a> •
+                <a href="#">Contato</a> •
+                <a href="#">Termos de Uso</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Gerar estrelas de fundo
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 200;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 4 + 's';
+                starsContainer.appendChild(star);
+            }
+
+            // Adicionar estrelas cadentes
+            for (let i = 0; i < 5; i++) {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.top = Math.random() * 50 + '%';
+                shootingStar.style.animationDelay = i * 8 + 's';
+                starsContainer.appendChild(shootingStar);
+            }
+        }
+
+        // Função para mostrar detalhes da constelação
+        function showConstelacao(nome) {
+            alert(`Você clicou em: ${nome}\n\nMais informações em breve!`);
+        }
+
+        // Simular carregamento (opcional)
+        function showLoading() {
+            const loading = document.getElementById('loading');
+            const grid = document.getElementById('constelacoesGrid');
+
+            loading.style.display = 'block';
+            grid.style.opacity = '0.3';
+
+            setTimeout(() => {
+                loading.style.display = 'none';
+                grid.style.opacity = '1';
+            }, 1500);
+        }
+
+        // Inicializar
+        window.onload = function () {
+            createStars();
+            // showLoading(); // Descomente para mostrar o loading
+        };
+
+        // Adicionar efeito parallax suave
+        window.addEventListener('scroll', function () {
+            const stars = document.getElementById('stars');
+            const scrolled = window.pageYOffset;
+            stars.style.transform = 'translateY(' + (scrolled * 0.5) + 'px)';
+        });
+    </script>
+</body>
+
+</html>

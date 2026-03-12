@@ -1,0 +1,526 @@
+//- views/constelacoes.pug
+doctype html
+html(lang="pt-BR")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Constelações - Mapas Celestes
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
+    style.
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0a0f1e 0%, #1a1f2f 100%);
+        min-height: 100vh;
+        color: #fff;
+      }
+
+      .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        background: transparent;
+        animation: twinkle 4s infinite;
+      }
+
+      @keyframes twinkle {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+      }
+
+      .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        animation: glow 3s infinite;
+      }
+
+      @keyframes glow {
+        0%, 100% { box-shadow: 0 0 5px #fff; }
+        50% { box-shadow: 0 0 15px #ffd700; }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeInDown 1s ease;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, #ffd700, #ffa500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: #a0a0c0;
+        letter-spacing: 2px;
+      }
+
+      .intro {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 3rem;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 15px;
+        border-left: 4px solid #ffd700;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #d0d0ff;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(5px);
+        border-radius: 20px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+        animation: fadeInUp 1s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(255, 215, 0, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.2);
+      }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+        transition: left 0.7s ease;
+      }
+
+      .card:hover::before {
+        left: 100%;
+      }
+
+      .constellation-icon {
+        font-size: 2.5rem;
+        color: #ffd700;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .constellation-name {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
+        color: #fff;
+      }
+
+      .constellation-name i {
+        font-size: 1.2rem;
+        color: #ffd700;
+        margin-left: 0.5rem;
+      }
+
+      .constellation-desc {
+        color: #b0b0d0;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        text-align: center;
+      }
+
+      .star-count {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 1rem 0;
+        color: #ffd700;
+      }
+
+      .star-count i {
+        font-size: 0.8rem;
+      }
+
+      .constellation-info {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .info-item {
+        text-align: center;
+      }
+
+      .info-item i {
+        color: #ffd700;
+        margin-bottom: 0.3rem;
+      }
+
+      .info-label {
+        font-size: 0.8rem;
+        color: #8080a0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .info-value {
+        font-weight: bold;
+        color: #fff;
+      }
+
+      .zodiac-section {
+        margin: 4rem 0;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #ffd700;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      }
+
+      .zodiac-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .zodiac-item {
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .zodiac-item:hover {
+        background: rgba(255, 215, 0, 0.1);
+        transform: scale(1.05);
+        border-color: #ffd700;
+      }
+
+      .zodiac-item i {
+        font-size: 2rem;
+        color: #ffd700;
+        margin-bottom: 1rem;
+      }
+
+      .zodiac-name {
+        font-size: 1.2rem;
+        color: #fff;
+        margin-bottom: 0.5rem;
+      }
+
+      .zodiac-dates {
+        font-size: 0.9rem;
+        color: #8080a0;
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #8080a0;
+      }
+
+      footer i {
+        color: #ffd700;
+        margin: 0 0.3rem;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .milky-way {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+        
+        .container {
+          padding: 1rem;
+        }
+        
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+  body
+    //- Estrelas cadentes
+    .stars
+      - for (var i = 0; i < 50; i++)
+        .star(style=`top: ${Math.random() * 100}%; left: ${Math.random() * 100}%; width: ${Math.random() * 3}px; height: ${Math.random() * 3}px; animation-delay: ${Math.random() * 5}s`)
+
+    .milky-way
+
+    .container
+      header
+        h1 
+          i.fas.fa-star
+          |  Constelações 
+          i.fas.fa-star
+        .subtitle Explorando o mapa celeste
+
+      .intro
+        p As constelações são agrupamentos aparentes de estrelas que os astrônomos da antiguidade imaginaram formar figuras de objetos, animais ou pessoas. Hoje, conhecemos 88 constelações que cobrem toda a esfera celeste.
+
+      .grid
+        .card
+          .constellation-icon
+            i.fas.fa-dog
+          .constellation-name
+            | Canis Major 
+            i.fas.fa-crown
+          .constellation-desc
+            | Abriga Sirius, a estrela mais brilhante do céu noturno. Representa um dos cães de caça de Órion.
+          .star-count
+            - for (var i = 0; i < 5; i++)
+              i.fas.fa-star
+          .constellation-info
+            .info-item
+              i.fas.fa-map-marker-alt
+              .info-label Hemisfério
+              .info-value Sul
+            .info-item
+              i.fas.fa-eye
+              .info-label Estrelas principais
+              .info-value 8
+
+        .card
+          .constellation-icon
+            i.fas.fa-cat
+          .constellation-name
+            | Leo 
+            i.fas.fa-crown
+          .constellation-desc
+            | Uma das constelações do zodíaco mais fáceis de identificar. Representa o leão de Nemeia da mitologia grega.
+          .star-count
+            - for (var i = 0; i < 4; i++)
+              i.fas.fa-star
+          .constellation-info
+            .info-item
+              i.fas.fa-map-marker-alt
+              .info-label Hemisfério
+              .info-value Norte
+            .info-item
+              i.fas.fa-eye
+              .info-label Estrelas principais
+              .info-value 9
+
+        .card
+          .constellation-icon
+            i.fas.fa-fish
+          .constellation-name
+            | Pisces 
+            i.fas.fa-crown
+          .constellation-desc
+            | Representa dois peixes amarrados por uma corda. É uma constelação grande mas de estrelas pouco brilhantes.
+          .star-count
+            - for (var i = 0; i < 3; i++)
+              i.fas.fa-star
+          .constellation-info
+            .info-item
+              i.fas.fa-map-marker-alt
+              .info-label Hemisfério
+              .info-value Norte
+            .info-item
+              i.fas.fa-eye
+              .info-label Estrelas principais
+              .info-value 6
+
+        .card
+          .constellation-icon
+            i.fas.fa-tree
+          .constellation-name
+            | Orion 
+            i.fas.fa-crown
+          .constellation-desc
+            | Uma das constelações mais famosas, facilmente reconhecida pelo "Cinturão de Órion" - três estrelas alinhadas.
+          .star-count
+            - for (var i = 0; i < 5; i++)
+              i.fas.fa-star
+          .constellation-info
+            .info-item
+              i.fas.fa-map-marker-alt
+              .info-label Hemisfério
+              .info-value Equatorial
+            .info-item
+              i.fas.fa-eye
+              .info-label Estrelas principais
+              .info-value 10
+
+        .card
+          .constellation-icon
+            i.fas.fa-otter
+          .constellation-name
+            | Ursa Major 
+            i.fas.fa-crown
+          .constellation-desc
+            | Contém o famoso "Grande Carro" e abriga estrelas importantes como Dubhe e Merak.
+          .star-count
+            - for (var i = 0; i < 4; i++)
+              i.fas.fa-star
+          .constellation-info
+            .info-item
+              i.fas.fa-map-marker-alt
+              .info-label Hemisfério
+              .info-value Norte
+            .info-item
+              i.fas.fa-eye
+              .info-label Estrelas principais
+              .info-value 7
+
+        .card
+          .constellation-icon
+            i.fas.fa-dragon
+          .constellation-name
+            | Draco 
+            i.fas.fa-crown
+          .constellation-desc
+            | Serpenteia entre a Ursa Maior e a Ursa Menor. Na mitologia, guardava as maçãs de ouro do Jardim das Hespérides.
+          .star-count
+            - for (var i = 0; i < 3; i++)
+              i.fas.fa-star
+          .constellation-info
+            .info-item
+              i.fas.fa-map-marker-alt
+              .info-label Hemisfério
+              .info-value Norte
+            .info-item
+              i.fas.fa-eye
+              .info-label Estrelas principais
+              .info-value 5
+
+      .zodiac-section
+        h2.section-title 
+          i.fas.fa-circle
+          |  Constelações do Zodíaco 
+          i.fas.fa-circle
+
+        .zodiac-grid
+          .zodiac-item
+            i.fas.fa-ram
+            .zodiac-name Áries
+            .zodiac-dates 21 mar - 19 abr
+          .zodiac-item
+            i.fas.fa-cow
+            .zodiac-name Touro
+            .zodiac-dates 20 abr - 20 mai
+          .zodiac-item
+            i.fas.fa-twins
+            .zodiac-name Gêmeos
+            .zodiac-dates 21 mai - 20 jun
+          .zodiac-item
+            i.fas.fa-crab
+            .zodiac-name Câncer
+            .zodiac-dates 21 jun - 22 jul
+          .zodiac-item
+            i.fas.fa-lion
+            .zodiac-name Leão
+            .zodiac-dates 23 jul - 22 ago
+          .zodiac-item
+            i.fas.fa-virgo
+            .zodiac-name Virgem
+            .zodiac-dates 23 ago - 22 set
+          .zodiac-item
+            i.fas.fa-scales
+            .zodiac-name Libra
+            .zodiac-dates 23 set - 22 out
+          .zodiac-item
+            i.fas.fa-scorpio
+            .zodiac-name Escorpião
+            .zodiac-dates 23 out - 21 nov
+          .zodiac-item
+            i.fas.fa-sagittarius
+            .zodiac-name Sagitário
+            .zodiac-dates 22 nov - 21 dez
+          .zodiac-item
+            i.fas.fa-capricorn
+            .zodiac-name Capricórnio
+            .zodiac-dates 22 dez - 19 jan
+          .zodiac-item
+            i.fas.fa-aquarius
+            .zodiac-name Aquário
+            .zodiac-dates 20 jan - 18 fev
+          .zodiac-item
+            i.fas.fa-fish
+            .zodiac-name Peixes
+            .zodiac-dates 19 fev - 20 mar
+
+      footer
+        p 
+          i.fas.fa-star
+          |  "Olhe para as estrelas e sonhe" 
+          i.fas.fa-star
+        p Constelações - Um mapa do céu noturno
+        p 
+          i.far.fa-copyright
+          |  2024 - Todos os direitos reservados
