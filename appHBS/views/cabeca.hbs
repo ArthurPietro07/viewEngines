@@ -1,0 +1,189 @@
+<!-- views/cabeca.hbs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabeça - Anatomia Humana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos similares ao arquivo principal, mas com tema específico para cabeça */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecf5 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e67e22, #f1c40f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateX(-5px);
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .organ-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .organ-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .organ-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .organ-card h3 {
+            font-size: 1.8em;
+            color: #e67e22;
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/corpo" class="back-button">← Voltar para Corpo Humano</a>
+
+        <header class="header">
+            <h1>🧠 Cabeça</h1>
+            <div class="divider"></div>
+            <p>Explore os órgãos e estruturas fascinantes da cabeça humana</p>
+        </header>
+
+        <div class="info-card">
+            <h2 style="font-size: 2em; margin-bottom: 30px; color: #e67e22;">Órgãos Principais</h2>
+
+            <div class="info-grid">
+                <div class="organ-card">
+                    <div class="organ-icon">🧠</div>
+                    <h3>Cérebro</h3>
+                    <p>O centro de controle do corpo, responsável por pensamentos, memória, emoções e coordenação
+                        motora.</p>
+                    <p style="margin-top: 15px; color: #7f8c8d;">Peso: ~1.4 kg</p>
+                </div>
+
+                <div class="organ-card">
+                    <div class="organ-icon">👁️</div>
+                    <h3>Olhos</h3>
+                    <p>Órgãos responsáveis pela visão, capazes de distinguir até 10 milhões de cores diferentes.</p>
+                    <p style="margin-top: 15px; color: #7f8c8d;">Resolução: 576 megapixels</p>
+                </div>
+
+                <div class="organ-card">
+                    <div class="organ-icon">👂</div>
+                    <h3>Ouvidos</h3>
+                    <p>Responsáveis pela audição e equilíbrio. O ouvido interno contém o labirinto ósseo.</p>
+                    <p style="margin-top: 15px; color: #7f8c8d;">Frequência: 20Hz - 20kHz</p>
+                </div>
+
+                <div class="organ-card">
+                    <div class="organ-icon">👃</div>
+                    <h3>Nariz</h3>
+                    <p>Órgão do olfato e parte do sistema respiratório. Filtra, aquece e umidifica o ar.</p>
+                    <p style="margin-top: 15px; color: #7f8c8d;">Receptores: 400 tipos</p>
+                </div>
+
+                <div class="organ-card">
+                    <div class="organ-icon">👄</div>
+                    <h3>Boca</h3>
+                    <p>Início do sistema digestivo, contém dentes, língua e glândulas salivares.</p>
+                    <p style="margin-top: 15px; color: #7f8c8d;">Dentes: 32 (adulto)</p>
+                </div>
+
+                <div class="organ-card">
+                    <div class="organ-icon">🧠</div>
+                    <h3>Hipófise</h3>
+                    <p>Glândula mestre que controla outras glândulas endócrinas do corpo.</p>
+                    <p style="margin-top: 15px; color: #7f8c8d;">Tamanho: ~1 cm</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 40px;">
+            <h2 style="color: #e67e22; margin-bottom: 20px;">Curiosidades sobre a Cabeça</h2>
+            <ul style="list-style: none; line-height: 2;">
+                <li>✨ O cérebro consome 20% da energia do corpo</li>
+                <li>✨ O crânio é formado por 22 ossos</li>
+                <li>✨ Os olhos piscam cerca de 15-20 vezes por minuto</li>
+                <li>✨ O ouvido médio contém os menores ossos do corpo</li>
+                <li>✨ A língua tem cerca de 10.000 papilas gustativas</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

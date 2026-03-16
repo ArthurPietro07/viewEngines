@@ -1,0 +1,532 @@
+//- views/cabeca.pug
+doctype html
+html(lang="pt-BR")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Cabeça - Anatomia da Cabeça Humana
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
+    style.
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #2980b9 0%, #2c3e50 100%);
+        min-height: 100vh;
+        color: #fff;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: fadeInDown 1s ease;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      h1 i {
+        margin: 0 0.5rem;
+        color: #ffd700;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 0.8rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .back-button i {
+        margin-right: 0.5rem;
+      }
+
+      .back-button:hover {
+        background: rgba(255, 215, 0, 0.2);
+        transform: translateX(-5px);
+        border-color: #ffd700;
+      }
+
+      .head-visualization {
+        display: flex;
+        justify-content: center;
+        margin: 3rem 0;
+        position: relative;
+      }
+
+      .head-svg {
+        width: 300px;
+        height: 400px;
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+
+      .brain-pulse {
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin: 2rem 0 1rem;
+        color: #ffd700;
+        border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        padding-bottom: 0.5rem;
+      }
+
+      .section-title i {
+        margin-right: 0.5rem;
+      }
+
+      .organs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .organ-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .organ-card:hover {
+        transform: translateY(-10px);
+        border-color: #ffd700;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      }
+
+      .organ-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .organ-card:hover::before {
+        left: 100%;
+      }
+
+      .organ-icon {
+        font-size: 3rem;
+        color: #ffd700;
+        margin-bottom: 1rem;
+      }
+
+      .organ-name {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #fff;
+      }
+
+      .organ-desc {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .organ-stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffd700;
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .senses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .sense-item {
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .sense-item:hover {
+        transform: scale(1.05);
+        border-color: #ffd700;
+      }
+
+      .sense-item i {
+        font-size: 2rem;
+        color: #ffd700;
+        margin-bottom: 0.5rem;
+      }
+
+      .sense-name {
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .sense-desc {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .skull-section {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .skull-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .skull-bone {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .skull-bone:hover {
+        background: rgba(255, 215, 0, 0.2);
+        transform: translateY(-3px);
+      }
+
+      .fun-facts {
+        background: linear-gradient(135deg, #2980b9 0%, #2c3e50 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border: 1px solid #ffd700;
+      }
+
+      .fact-item {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .fact-item:hover {
+        transform: translateX(10px);
+        background: rgba(255, 215, 0, 0.1);
+      }
+
+      .fact-item i {
+        color: #ffd700;
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        min-width: 30px;
+      }
+
+      .navigation-links {
+        display: flex;
+        justify-content: space-between;
+        margin: 3rem 0;
+      }
+
+      .nav-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .nav-button i {
+        margin: 0 0.5rem;
+      }
+
+      .nav-button:hover {
+        background: #ffd700;
+        color: #2c3e50;
+        transform: scale(1.05);
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+        
+        .container {
+          padding: 1rem;
+        }
+        
+        .skull-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+  body
+    .container
+      a.back-button(href="/corpo")
+        i.fas.fa-arrow-left
+        | Voltar para Corpo Humano
+
+      header
+        h1
+          i.fas.fa-brain
+          |  Cabeça 
+          i.fas.fa-brain
+        .subtitle Explore a anatomia da cabeça humana - O centro do sistema nervoso e dos sentidos
+
+      .head-visualization
+        svg.head-svg(viewBox="0 0 200 200")
+          //- Cabeça
+          circle(cx="100", cy="90", r="50", fill="rgba(255,255,255,0.1)", stroke="#ffd700", stroke-width="2")
+          //- Cérebro
+          circle(cx="90", cy="80", r="12", fill="rgba(255,215,0,0.3)", stroke="#ffd700", stroke-width="1.5", class="brain-pulse")
+          circle(cx="110", cy="80", r="12", fill="rgba(255,215,0,0.3)", stroke="#ffd700", stroke-width="1.5", class="brain-pulse")
+          circle(cx="100", cy="95", r="15", fill="rgba(255,215,0,0.3)", stroke="#ffd700", stroke-width="1.5", class="brain-pulse")
+          //- Olhos
+          circle(cx="80", cy="85", r="5", fill="white", stroke="#2c3e50", stroke-width="1")
+          circle(cx="120", cy="85", r="5", fill="white", stroke="#2c3e50", stroke-width="1")
+          circle(cx="82", cy="87", r="2", fill="#2c3e50")
+          circle(cx="122", cy="87", r="2", fill="#2c3e50")
+          //- Nariz
+          path(d="M95 100 L100 110 L105 100", fill="none", stroke="#ffd700", stroke-width="1.5")
+          //- Boca
+          path(d="M85 115 Q100 125 115 115", fill="none", stroke="#ffd700", stroke-width="1.5")
+          //- Orelhas
+          circle(cx="50", cy="90", r="8", fill="rgba(255,255,255,0.1)", stroke="#ffd700", stroke-width="1.5")
+          circle(cx="150", cy="90", r="8", fill="rgba(255,255,255,0.1)", stroke="#ffd700", stroke-width="1.5")
+
+      h2.section-title
+        i.fas.fa-microscope
+        | Órgãos Principais
+
+      .organs-grid
+        .organ-card
+          .organ-icon
+            i.fas.fa-brain
+          .organ-name Cérebro
+          .organ-desc O centro de controle do corpo, responsável por pensamentos, memória e movimentos.
+          .organ-stats
+            .stat-item
+              .stat-value 86 bi
+              .stat-label Neurônios
+            .stat-item
+              .stat-value 1.5 kg
+              .stat-label Peso médio
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-eye
+          .organ-name Olhos
+          .organ-desc Responsáveis pela visão, captam luz e enviam sinais ao cérebro.
+          .organ-stats
+            .stat-item
+              .stat-value 576 MP
+              .stat-label Resolução
+            .stat-item
+              .stat-value 120°
+              .stat-label Campo visão
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-ear-listen
+          .organ-name Ouvidos
+          .organ-desc Responsáveis pela audição e equilíbrio do corpo.
+          .organ-stats
+            .stat-item
+              .stat-value 20-20k Hz
+              .stat-label Frequência
+            .stat-item
+              .stat-value 3 ossos
+              .stat-label Ossículos
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-nose
+          .organ-name Nariz
+          .organ-desc Responsável pelo olfato e filtração do ar inspirado.
+          .organ-stats
+            .stat-item
+              .stat-value 1 tri
+              .stat-label Odores
+            .stat-item
+              .stat-value 400 cm²
+              .stat-label Área olfatória
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-mouth
+          .organ-name Boca
+          .organ-desc Inicia a digestão e é essencial para a fala.
+          .organ-stats
+            .stat-item
+              .stat-value 10k
+              .stat-label Papilas
+            .stat-item
+              .stat-value 32
+              .stat-label Dentes
+
+      h2.section-title
+        i.fas.fa-star
+        | Os 5 Sentidos
+
+      .senses-grid
+        .sense-item
+          i.fas.fa-eye
+          .sense-name Visão
+          .sense-desc 80% da informação sensorial
+        .sense-item
+          i.fas.fa-ear-listen
+          .sense-name Audição
+          .sense-desc Vibrações no ar
+        .sense-item
+          i.fas.fa-hand
+          .sense-name Tato
+          .sense-desc 2 milhões de receptores
+        .sense-item
+          i.fas.fa-nose
+          .sense-name Olfato
+          .sense-desc 400 tipos de receptores
+        .sense-item
+          i.fas.fa-mouth
+          .sense-name Paladar
+          .sense-desc 5 sabores básicos
+
+      .skull-section
+        h2.section-title(style="border-bottom: none; margin-top: 0;")
+          i.fas.fa-bone
+          | Ossos do Crânio
+        .skull-grid
+          .skull-bone Frontal
+          .skull-bone Parietal (2)
+          .skull-bone Temporal (2)
+          .skull-bone Occipital
+          .skull-bone Esfenóide
+          .skull-bone Etmóide
+          .skull-bone Mandíbula
+          .skull-bone Maxila
+
+      .fun-facts
+        h2.section-title(style="border-bottom: none; margin-top: 0; color: #ffd700;")
+          i.fas.fa-lightbulb
+          | Curiosidades
+        .fact-item
+          i.fas.fa-bolt
+          | O cérebro gera cerca de 20 watts de energia elétrica
+        .fact-item
+          i.fas.fa-tint
+          | Piscamos aproximadamente 15-20 vezes por minuto
+        .fact-item
+          i.fas.fa-clock
+          | O cabelo cresce cerca de 1cm por mês
+        .fact-item
+          i.fas.fa-weight-scale
+          | O cérebro representa 2% do peso corporal mas usa 20% da energia
+
+      .navigation-links
+        a.nav-button(href="/corpo")
+          i.fas.fa-arrow-left
+          | Corpo Humano
+        a.nav-button(href="/corpo/barriga")
+          | Barriga/Tronco 
+          i.fas.fa-arrow-right
+
+      footer
+        p 
+          i.fas.fa-brain
+          |  "A cabeça é o castelo da mente" 
+          i.fas.fa-brain
+        p Anatomia da Cabeça - Explore e aprenda
+        p 
+          i.far.fa-copyright
+          |  2024 - Todos os direitos reservados

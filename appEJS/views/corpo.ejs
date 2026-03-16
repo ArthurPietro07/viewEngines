@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corpo Humano - Anatomia Interativa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9eef5 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeInDown 1s ease;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: #e74c3c;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+
+        .header-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* Navegação Principal */
+        .nav-principal {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            background: white;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.3);
+            background: #e74c3c;
+            color: white;
+        }
+
+        .nav-btn.active {
+            background: #e74c3c;
+            color: white;
+        }
+
+        /* Modelo do Corpo Humano */
+        .corpo-modelo {
+            background: white;
+            border-radius: 50px;
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .corpo-modelo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, #e74c3c, #f39c12, #3498db, #2ecc71);
+        }
+
+        .modelo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        /* Ilustração SVG do corpo */
+        .corpo-ilustracao {
+            position: relative;
+            width: 300px;
+            height: 500px;
+        }
+
+        .corpo-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .parte-corpo {
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .parte-corpo:hover {
+            filter: drop-shadow(0 0 10px rgba(231, 76, 60, 0.5));
+        }
+
+        .parte-corpo.active {
+            filter: drop-shadow(0 0 15px rgba(231, 76, 60, 0.8));
+        }
+
+        /* Áreas clicáveis */
+        .area-clicavel {
+            fill: rgba(231, 76, 60, 0.1);
+            stroke: #e74c3c;
+            stroke-width: 2;
+            stroke-dasharray: 5, 5;
+            transition: all 0.3s;
+        }
+
+        .area-clicavel:hover {
+            fill: rgba(231, 76, 60, 0.3);
+            stroke-width: 3;
+        }
+
+        /* Cards de informação */
+        .info-painel {
+            flex: 1;
+            min-width: 300px;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 30px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .info-painel h2 {
+            font-size: 2rem;
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-painel h2 i {
+            font-size: 2rem;
+        }
+
+        .info-lista {
+            list-style: none;
+        }
+
+        .info-lista li {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .info-lista li:hover {
+            transform: translateX(10px);
+            background: #e74c3c;
+            color: white;
+        }
+
+        .info-lista li i {
+            font-size: 1.5rem;
+            width: 30px;
+        }
+
+        /* Links para subrotas */
+        .subrotas {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .subrota-link {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem;
+            background: white;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            text-align: center;
+            border: 2px solid #e74c3c;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .subrota-link:hover {
+            background: #e74c3c;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Cards das partes */
+        .partes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .parte-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .parte-card:hover {
+            transform: translateY(-10px);
+            border-color: #e74c3c;
+            box-shadow: 0 20px 30px rgba(231, 76, 60, 0.2);
+        }
+
+        .parte-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .parte-icon {
+            font-size: 2.5rem;
+            background: #f8f9fa;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parte-card h3 {
+            font-size: 1.5rem;
+            color: #e74c3c;
+        }
+
+        .parte-card p {
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .parte-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .parte-link:hover {
+            background: #e74c3c;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* Curiosidades */
+        .curiosidades {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .curiosidades h2 {
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .curiosidades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .curiosidade-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #e74c3c;
+        }
+
+        .curiosidade-item strong {
+            color: #e74c3c;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animações */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .modelo-container {
+                flex-direction: column;
+            }
+
+            .corpo-ilustracao {
+                width: 250px;
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-icon">🫀</div>
+            <h1>CORPO HUMANO</h1>
+            <p>Explore a anatomia humana de forma interativa • Clique nas partes do corpo para saber mais</p>
+        </header>
+
+        <!-- Navegação Rápida -->
+        <div class="nav-principal">
+            <button class="nav-btn active" onclick="window.location.href='#cabeca'">
+                <span>👤</span> Cabeça
+            </button>
+            <button class="nav-btn" onclick="window.location.href='#barriga'">
+                <span>🫃</span> Barriga
+            </button>
+            <button class="nav-btn" onclick="window.location.href='#corpo'">
+                <span>💪</span> Corpo Inteiro
+            </button>
+        </div>
+
+        <!-- Modelo Interativo do Corpo -->
+        <div class="corpo-modelo">
+            <div class="modelo-container">
+                <!-- Ilustração SVG do corpo -->
+                <div class="corpo-ilustracao">
+                    <svg class="corpo-svg" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Cabeça (link para subrota cabeça) -->
+                        <a href="/corpo/cabeca" class="parte-link-svg">
+                            <circle class="parte-corpo area-clicavel" cx="100" cy="70" r="35" />
+                        </a>
+
+                        <!-- Pescoço -->
+                        <rect x="90" y="100" width="20" height="25" fill="#f0d5b0" stroke="#b87333" stroke-width="2" />
+
+                        <!-- Tronco -->
+                        <path d="M70 125 L130 125 L140 250 L60 250 Z" fill="#f0d5b0" stroke="#b87333"
+                            stroke-width="2" />
+
+                        <!-- Barriga (link para subrota barriga) -->
+                        <a href="/corpo/barriga">
+                            <ellipse class="parte-corpo area-clicavel" cx="100" cy="190" rx="30" ry="25" />
+                        </a>
+
+                        <!-- Braços -->
+                        <path d="M60 140 L25 180" stroke="#b87333" stroke-width="15" stroke-linecap="round" />
+                        <path d="M140 140 L175 180" stroke="#b87333" stroke-width="15" stroke-linecap="round" />
+
+                        <!-- Pernas -->
+                        <path d="M90 250 L75 330" stroke="#b87333" stroke-width="15" stroke-linecap="round" />
+                        <path d="M110 250 L125 330" stroke="#b87333" stroke-width="15" stroke-linecap="round" />
+
+                        <!-- Texto indicativo -->
+                        <text x="100" y="40" text-anchor="middle" fill="#e74c3c" font-size="12">👆 Clique aqui</text>
+                        <text x="160" y="180" text-anchor="middle" fill="#e74c3c" font-size="10">👆 Barriga</text>
+                    </svg>
+                </div>
+
+                <!-- Painel de Informações Dinâmico -->
+                <div class="info-painel" id="infoPainel">
+                    <h2>
+                        <i>ℹ️</i>
+                        <span id="parteTitulo">Corpo Humano</span>
+                    </h2>
+
+                    <ul class="info-lista" id="infoLista">
+                        <li><i>🧠</i> Mais de 600 músculos</li>
+                        <li><i>🦴</i> 206 ossos</li>
+                        <li><i>❤️</i> 100.000 batimentos cardíacos/dia</li>
+                        <li><i>🫁</i> 20.000 respirações/dia</li>
+                    </ul>
+
+                    <!-- Links para subrotas -->
+                    <div class="subrotas">
+                        <a href="/corpo/cabeca" class="subrota-link">
+                            <span>👤</span> Explorar Cabeça
+                        </a>
+                        <a href="/corpo/barriga" class="subrota-link">
+                            <span>🫃</span> Explorar Barriga
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards das Partes do Corpo com Links Diretos -->
+        <h2 style="color: #2c3e50; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span>🔍</span> Explore cada parte em detalhes
+        </h2>
+
+        <div class="partes-grid">
+            <!-- Card Cabeça -->
+            <div class="parte-card" id="cabeca">
+                <div class="parte-card-header">
+                    <div class="parte-icon">👤</div>
+                    <h3>Cabeça</h3>
+                </div>
+                <p>O centro do sistema nervoso, abriga o cérebro e os principais órgãos dos sentidos.</p>
+                <a href="/corpo/cabeca" class="parte-link">
+                    Ver detalhes da Cabeça →
+                </a>
+            </div>
+
+            <!-- Card Barriga -->
+            <div class="parte-card" id="barriga">
+                <div class="parte-card-header">
+                    <div class="parte-icon">🫃</div>
+                    <h3>Barriga (Abdômen)</h3>
+                </div>
+                <p>Região que contém órgãos vitais da digestão, como estômago, fígado e intestinos.</p>
+                <a href="/corpo/barriga" class="parte-link">
+                    Ver detalhes da Barriga →
+                </a>
+            </div>
+
+            <!-- Card Tórax -->
+            <div class="parte-card">
+                <div class="parte-card-header">
+                    <div class="parte-icon">🫁</div>
+                    <h3>Tórax</h3>
+                </div>
+                <p>Protegido pelas costelas, abriga o coração e os pulmões.</p>
+                <a href="" class="parte-link">
+                    Ver detalhes do Tórax →
+                </a>
+            </div>
+
+            <!-- Card Membros -->
+            <div class="parte-card">
+                <div class="parte-card-header">
+                    <div class="parte-icon">💪</div>
+                    <h3>Membros</h3>
+                </div>
+                <p>Braços, pernas, mãos e pés - responsáveis pelo movimento e locomoção.</p>
+                <a href="" class="parte-link">
+                    Ver detalhes dos Membros →
+                </a>
+            </div>
+        </div>
+
+        <!-- Curiosidades -->
+        <div class="curiosidades">
+            <h2>
+                <span>✨</span>
+                Curiosidades do Corpo Humano
+            </h2>
+            <div class="curiosidades-grid">
+                <div class="curiosidade-item">
+                    <strong>🧬 DNA</strong>
+                    Se esticado, alcançaria Plutão e voltaria
+                </div>
+                <div class="curiosidade-item">
+                    <strong>👀 Olhos</strong>
+                    Conseguem distinguir 10 milhões de cores
+                </div>
+                <div class="curiosidade-item">
+                    <strong>🦷 Dentes</strong>
+                    São tão fortes quanto os de tubarão
+                </div>
+                <div class="curiosidade-item">
+                    <strong>🫀 Coração</strong>
+                    Gera pressão suficiente para jorrar sangue a 9 metros
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">🧬 Atlas de Anatomia Interativo</p>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                <a href="/corpo" style="color: #e74c3c; text-decoration: none;">Visão Geral</a>
+                <a href="/corpo/cabeca" style="color: #e74c3c; text-decoration: none;">Cabeça</a>
+                <a href="/corpo/barriga" style="color: #e74c3c; text-decoration: none;">Barriga</a>
+                <a href=" " style="color: #e74c3c; text-decoration: none;">Tórax</a>
+            </div>
+            <p style="margin-top: 1rem; color: #7f8c8d;">© 2024 Anatomia Interativa - Todos os direitos reservados</p>
+        </footer>
+    </div>
+
+    <script>
+        // Interatividade para destacar partes ao passar o mouse
+        document.querySelectorAll('.parte-corpo, .parte-card').forEach(elemento => {
+            elemento.addEventListener('mouseenter', (e) => {
+                const parte = e.target.closest('.parte-card')?.querySelector('h3')?.textContent ||
+                    (e.target.classList.contains('area-clicavel') ? 'Parte do corpo' : '');
+
+                if (parte) {
+                    document.getElementById('parteTitulo').textContent = parte;
+
+                    // Atualizar lista de informações baseado na parte
+                    const lista = document.getElementById('infoLista');
+                    lista.innerHTML = '';
+
+                    if (parte.includes('Cabeça')) {
+                        lista.innerHTML = `
+                            <li><i>🧠</i> Cérebro: 86 bilhões de neurônios</li>
+                            <li><i>👁️</i> Olhos: 120 milhões de células sensíveis à luz</li>
+                            <li><i>👂</i> Ouvidos: Detectam frequências de 20 a 20.000 Hz</li>
+                            <li><i>👃</i> Nariz: Consegue distinguir 1 trilhão de odores</li>
+                        `;
+                    } else if (parte.includes('Barriga')) {
+                        lista.innerHTML = `
+                            <li><i>🫃</i> Estômago: Produz 2 litros de suco gástrico/dia</li>
+                            <li><i>🫁</i> Fígado: Mais de 500 funções vitais</li>
+                            <li><i>🥨</i> Intestinos: 7 metros de comprimento</li>
+                            <li><i>🫘</i> Pâncreas: Produz insulina e enzimas</li>
+                        `;
+                    } else {
+                        lista.innerHTML = `
+                            <li><i>🧠</i> Mais de 600 músculos</li>
+                            <li><i>🦴</i> 206 ossos</li>
+                            <li><i>❤️</i> 100.000 batimentos cardíacos/dia</li>
+                            <li><i>🫁</i> 20.000 respirações/dia</li>
+                        `;
+                    }
+                }
+            });
+        });
+
+        // Destacar link ativo baseado na URL
+        document.addEventListener('DOMContentLoaded', function () {
+            const path = window.location.pathname;
+
+            if (path.includes('cabeca')) {
+                document.querySelector('#cabeca').scrollIntoView({ behavior: 'smooth' });
+            } else if (path.includes('barriga')) {
+                document.querySelector('#barriga').scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Efeito de clique nos cards
+        document.querySelectorAll('.parte-card').forEach(card => {
+            card.addEventListener('click', function (e) {
+                if (!e.target.closest('a')) {
+                    const link = this.querySelector('a');
+                    if (link) {
+                        window.location.href = link.href;
+                    }
+                }
+            });
+        });
+
+        // Animar números (se quiser adicionar contadores)
+        function animateNumbers() {
+            // Função para animar números quando visíveis
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,634 @@
+<!-- views/corpo-humano.hbs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corpo Humano - Anatomia Interativa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecf5 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e74c3c, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .divider {
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, #e74c3c, #3498db, #2ecc71);
+            margin: 30px auto;
+            border-radius: 3px;
+        }
+
+        /* Ilustração do corpo humano */
+        .body-illustration {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto 60px;
+            cursor: pointer;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .body-svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+        }
+
+        /* Áreas clicáveis */
+        .clickable-area {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .clickable-area:hover {
+            filter: brightness(1.1) drop-shadow(0 0 10px rgba(52, 152, 219, 0.5));
+        }
+
+        .clickable-area:active {
+            transform: scale(0.98);
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: absolute;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #2c3e50;
+        }
+
+        /* Cards de informação */
+        .info-section {
+            margin-top: 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #e74c3c, #3498db);
+            border-radius: 3px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #e74c3c, #3498db);
+        }
+
+        .info-card h3 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .info-card p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .info-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .detail-label {
+            font-size: 0.8em;
+            color: #95a5a6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.2em;
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            box-shadow: 0 5px 15px rgba(127, 140, 141, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        /* Curiosidades */
+        .curiosities {
+            margin-top: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            padding: 50px;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .curiosities h2 {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .curiosities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .curiosity-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .curiosity-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .curiosity-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .curiosity-item p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .footer p {
+            color: #95a5a6;
+            font-size: 0.95em;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #e74c3c;
+        }
+
+        /* Animações */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .body-illustration {
+                max-width: 300px;
+            }
+
+            .curiosities {
+                padding: 30px 20px;
+            }
+
+            .curiosities h2 {
+                font-size: 2em;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .info-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🧬 Corpo Humano</h1>
+            <div class="divider"></div>
+            <p>Explore a fascinante máquina humana. Clique nas partes do corpo para descobrir mais sobre cada região.
+            </p>
+        </header>
+
+        <!-- Ilustração do corpo humano com áreas clicáveis -->
+        <div class="body-illustration">
+            <!-- Tooltips -->
+            <div class="tooltip" id="headTooltip">Cabeça</div>
+            <div class="tooltip" id="torsoTooltip">Barriga</div>
+
+            <svg class="body-svg" viewBox="0 0 200 400" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cabeça - área clicável -->
+                <a href="/corpo/cabeca" class="clickable-area">
+                    <circle cx="100" cy="70" r="40" fill="#f1c40f" opacity="0.3" stroke="#e67e22" stroke-width="2"
+                        stroke-dasharray="5,5" onmouseover="showTooltip('headTooltip', 100, 40)"
+                        onmouseout="hideTooltip('headTooltip')" />
+                </a>
+
+                <!-- Torso/Barriga - área clicável -->
+                <a href="/corpo/barriga" class="clickable-area">
+                    <rect x="70" y="120" width="60" height="100" fill="#3498db" opacity="0.3" stroke="#2980b9"
+                        stroke-width="2" stroke-dasharray="5,5" rx="10"
+                        onmouseover="showTooltip('torsoTooltip', 100, 170)" onmouseout="hideTooltip('torsoTooltip')" />
+                </a>
+
+                <!-- Contorno do corpo humano (apenas para referência visual) -->
+                <!-- Cabeça -->
+                <circle cx="100" cy="70" r="35" fill="#f1c40f" opacity="0.2" stroke="#bdc3c7" stroke-width="2" />
+
+                <!-- Olhos -->
+                <circle cx="80" cy="60" r="5" fill="#2c3e50" />
+                <circle cx="120" cy="60" r="5" fill="#2c3e50" />
+
+                <!-- Nariz -->
+                <path d="M100 65 L100 75" stroke="#2c3e50" stroke-width="2" />
+
+                <!-- Boca -->
+                <path d="M85 80 Q100 90 115 80" stroke="#2c3e50" stroke-width="2" fill="none" />
+
+                <!-- Torso -->
+                <rect x="75" y="105" width="50" height="120" fill="#3498db" opacity="0.2" stroke="#bdc3c7"
+                    stroke-width="2" rx="10" />
+
+                <!-- Braços -->
+                <rect x="45" y="115" width="30" height="80" fill="#e67e22" opacity="0.2" stroke="#bdc3c7"
+                    stroke-width="2" rx="8" transform="rotate(-10 60 155)" />
+                <rect x="125" y="115" width="30" height="80" fill="#e67e22" opacity="0.2" stroke="#bdc3c7"
+                    stroke-width="2" rx="8" transform="rotate(10 140 155)" />
+
+                <!-- Pernas -->
+                <rect x="75" y="225" width="20" height="100" fill="#2ecc71" opacity="0.2" stroke="#bdc3c7"
+                    stroke-width="2" rx="8" />
+                <rect x="105" y="225" width="20" height="100" fill="#2ecc71" opacity="0.2" stroke="#bdc3c7"
+                    stroke-width="2" rx="8" />
+
+                <!-- Labels das áreas clicáveis -->
+                <text x="100" y="30" text-anchor="middle" fill="#e67e22" font-weight="bold" font-size="12">CABEÇA</text>
+                <text x="100" y="230" text-anchor="middle" fill="#2980b9" font-weight="bold"
+                    font-size="12">BARRIGA</text>
+            </svg>
+        </div>
+
+        <!-- Informações gerais sobre o corpo humano -->
+        <div class="info-section">
+            <h2 class="section-title">Sistemas do Corpo Humano</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🧠 Sistema Nervoso</h3>
+                    <p>Responsável por coordenar as atividades do corpo, processar informações sensoriais e controlar
+                        funções voluntárias e involuntárias.</p>
+                    <div class="info-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Órgão principal</div>
+                            <div class="detail-value">Cérebro</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Neurônios</div>
+                            <div class="detail-value">86 bi</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>🫀 Sistema Cardiovascular</h3>
+                    <p>Transporta oxigênio, nutrientes e hormônios para as células, além de remover resíduos
+                        metabólicos.</p>
+                    <div class="info-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Coração</div>
+                            <div class="detail-value">100k bat/dia</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Vasos sanguíneos</div>
+                            <div class="detail-value">96 mil km</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>🦴 Sistema Esquelético</h3>
+                    <p>Fornece suporte estrutural, protege órgãos vitais e permite o movimento juntamente com os
+                        músculos.</p>
+                    <div class="info-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Ossos</div>
+                            <div class="detail-value">206</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Músculos</div>
+                            <div class="detail-value">~600</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegação rápida para as subrotas -->
+        <div style="text-align: center; margin: 50px 0;">
+            <h2 style="font-size: 2em; color: #2c3e50; margin-bottom: 30px;">Explore as Partes do Corpo</h2>
+            <div class="btn-group">
+                <a href="/corpo/cabeca" class="btn">
+                    🧠 Ir para Cabeça
+                </a>
+                <a href="/corpo/barriga" class="btn btn-secondary">
+                    🫀 Ir para Barriga
+                </a>
+            </div>
+        </div>
+
+        <!-- Curiosidades -->
+        <div class="curiosities">
+            <h2>🤔 Curiosidades Fascinantes</h2>
+            <div class="curiosities-grid">
+                <div class="curiosity-item">
+                    <div class="curiosity-icon">💪</div>
+                    <p>O corpo humano tem mais de 600 músculos. O mais forte é o masseter (músculo da mandíbula)!</p>
+                </div>
+                <div class="curiosity-item">
+                    <div class="curiosity-icon">🧠</div>
+                    <p>O cérebro gera cerca de 20 watts de energia elétrica - suficiente para acender uma lâmpada LED!
+                    </p>
+                </div>
+                <div class="curiosity-item">
+                    <div class="curiosity-icon">👃</div>
+                    <p>Podemos distinguir mais de 1 trilhão de aromas diferentes!</p>
+                </div>
+                <div class="curiosity-item">
+                    <div class="curiosity-icon">❤️</div>
+                    <p>O coração bate cerca de 100.000 vezes por dia, bombeando 7.500 litros de sangue!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🧬 Anatomia Interativa - Explore o corpo humano como nunca antes</p>
+            <p style="margin-top: 20px; font-size: 0.85em;">© 2024 Corpo Humano Explorer - Todos os direitos reservados
+            </p>
+            <p style="margin-top: 10px;">
+                <a href="#">Sobre</a> •
+                <a href="#">Sistemas</a> •
+                <a href="#">Contato</a> •
+                <a href="#">Referências</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Funções para os tooltips
+        function showTooltip(tooltipId, x, y) {
+            const tooltip = document.getElementById(tooltipId);
+            const illustration = document.querySelector('.body-illustration');
+            const rect = illustration.getBoundingClientRect();
+
+            tooltip.style.left = (x - 40) + 'px';
+            tooltip.style.top = (y - 30) + 'px';
+            tooltip.style.opacity = '1';
+        }
+
+        function hideTooltip(tooltipId) {
+            document.getElementById(tooltipId).style.opacity = '0';
+        }
+
+        // Efeito de hover nas áreas clicáveis
+        document.querySelectorAll('.clickable-area').forEach(area => {
+            area.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href) {
+                    window.location.href = href;
+                }
+            });
+        });
+
+        // Animação de entrada suave
+        window.addEventListener('load', function () {
+            document.body.style.opacity = '1';
+        });
+
+        // Efeito de pulso nas áreas clicáveis
+        setInterval(() => {
+            document.querySelectorAll('.clickable-area circle, .clickable-area rect').forEach(el => {
+                el.style.animation = 'pulse 2s ease-in-out';
+                setTimeout(() => {
+                    el.style.animation = '';
+                }, 2000);
+            });
+        }, 5000);
+    </script>
+</body>
+
+</html>

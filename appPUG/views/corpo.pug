@@ -1,0 +1,521 @@
+//- views/corpo-humano.pug
+doctype html
+html(lang="pt-BR")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Corpo Humano - Anatomia Interativa
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
+    style.
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #fff;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: fadeInDown 1s ease;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      h1 i {
+        margin: 0 0.5rem;
+        color: #ffd700;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .body-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 2rem 0;
+        position: relative;
+      }
+
+      .body-silhouette {
+        position: relative;
+        width: 300px;
+        height: 500px;
+        cursor: pointer;
+        animation: fadeIn 1.5s ease;
+      }
+
+      .body-part {
+        position: absolute;
+        width: 100%;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+      }
+
+      .body-part:hover {
+        transform: scale(1.02);
+        filter: drop-shadow(0 20px 25px rgba(0,0,0,0.4));
+      }
+
+      .head-section {
+        top: 0;
+        height: 120px;
+        z-index: 3;
+      }
+
+      .torso-section {
+        top: 100px;
+        height: 200px;
+        z-index: 2;
+      }
+
+      .legs-section {
+        top: 280px;
+        height: 200px;
+        z-index: 1;
+      }
+
+      .click-area {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px dashed rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px black;
+        backdrop-filter: blur(5px);
+      }
+
+      .click-area:hover {
+        background: rgba(255, 215, 0, 0.2);
+        border-color: #ffd700;
+        transform: scale(1.02);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      }
+
+      .click-area i {
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .click-area.head {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+      }
+
+      .click-area.torso {
+        top: 110px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 150px;
+        border-radius: 30% 30% 20% 20%;
+      }
+
+      .click-area:hover .tooltip {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .tooltip {
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(10px);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        opacity: 0;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        border: 1px solid #ffd700;
+      }
+
+      .info-panel {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: slideUp 0.5s ease;
+      }
+
+      .info-panel h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #ffd700;
+        text-align: center;
+      }
+
+      .info-panel h2 i {
+        margin: 0 0.5rem;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .info-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .info-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.1);
+        border-color: #ffd700;
+      }
+
+      .info-card i {
+        font-size: 2.5rem;
+        color: #ffd700;
+        margin-bottom: 1rem;
+      }
+
+      .info-card h3 {
+        margin-bottom: 0.5rem;
+        color: #fff;
+      }
+
+      .info-card p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .fun-facts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .fact-item {
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        border-left: 4px solid #ffd700;
+      }
+
+      .fact-item i {
+        color: #ffd700;
+        margin-right: 0.5rem;
+      }
+
+      .navigation-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+      }
+
+      .nav-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      }
+
+      .nav-link i {
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .nav-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        border-color: #ffd700;
+      }
+
+      .nav-link.secondary {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      .nav-link.secondary:hover {
+        background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+      }
+
+      .active-area {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(255, 215, 0, 0.1);
+        border-radius: 10px;
+        margin: 1rem 0;
+        border: 1px solid #ffd700;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+      }
+
+      .body-anatomy {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin: 3rem 0;
+        flex-wrap: wrap;
+      }
+
+      .anatomy-item {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        min-width: 150px;
+      }
+
+      .anatomy-item i {
+        font-size: 2rem;
+        color: #ffd700;
+        margin-bottom: 0.5rem;
+      }
+
+      .anatomy-item span {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .anatomy-item small {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      footer i {
+        color: #ffd700;
+        margin: 0 0.3rem;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+        
+        .container {
+          padding: 1rem;
+        }
+        
+        .click-area.head {
+          width: 60px;
+          height: 60px;
+        }
+        
+        .click-area.torso {
+          width: 120px;
+          height: 120px;
+        }
+        
+        .nav-link {
+          padding: 0.8rem 1.5rem;
+          font-size: 0.9rem;
+        }
+      }
+
+  body
+    .container
+      header
+        h1
+          i.fas.fa-heartbeat
+          |  Corpo Humano 
+          i.fas.fa-heartbeat
+        .subtitle Explore a anatomia humana de forma interativa - Clique nas áreas do corpo para saber mais!
+
+      .body-container
+        .body-silhouette
+          //- SVG Silhueta do corpo humano (simplificada)
+          svg(width="100%", height="100%", viewBox="0 0 200 400")
+            //- Cabeça
+            circle(cx="100", cy="60", r="35", fill="rgba(255,255,255,0.1)", stroke="rgba(255,255,255,0.3)", stroke-width="2")
+            //- Pescoço
+            rect(x="90", y="90", width="20", height="25", fill="rgba(255,255,255,0.1)", stroke="rgba(255,255,255,0.3)", stroke-width="2")
+            //- Tronco
+            path(d="M70 115 L70 250 Q100 280 130 250 L130 115 Q100 130 70 115", fill="rgba(255,255,255,0.1)", stroke="rgba(255,255,255,0.3)", stroke-width="2")
+            //- Braço esquerdo
+            path(d="M70 130 L40 180 L45 190 L70 150", fill="rgba(255,255,255,0.1)", stroke="rgba(255,255,255,0.3)", stroke-width="2")
+            //- Braço direito
+            path(d="M130 130 L160 180 L155 190 L130 150", fill="rgba(255,255,255,0.1)", stroke="rgba(255,255,255,0.3)", stroke-width="2")
+            //- Perna esquerda
+            path(d="M85 250 L75 340 L85 350 L95 260", fill="rgba(255,255,255,0.1)", stroke="rgba(255,255,255,0.3)", stroke-width="2")
+            //- Perna direita
+            path(d="M115 250 L125 340 L115 350 L105 260", fill="rgba(255,255,255,0.1)", stroke="rgba(255,255,255,0.3)", stroke-width="2")
+
+          //- Áreas clicáveis
+          a.click-area.head(href="/corpo/cabeca", title="Clique para ver informações sobre a cabeça")
+            i.fas.fa-brain
+            span Cabeça
+            .tooltip Ver detalhes da cabeça
+
+          a.click-area.torso(href="/corpo/barriga", title="Clique para ver informações sobre o tronco")
+            i.fas.fa-heart
+            span Tronco
+            .tooltip Ver detalhes do tronco
+
+      .active-area
+        i.fas.fa-hand-pointer
+        |  Clique em qualquer área destacada do corpo para explorar!
+
+      .navigation-links
+        a.nav-link(href="/corpo/cabeca")
+          i.fas.fa-brain
+          | Explorar Cabeça
+        a.nav-link.secondary(href="/corpo/barriga")
+          i.fas.fa-heart
+          | Explorar Barriga/Tronco
+
+      .info-panel
+        h2
+          i.fas.fa-info-circle
+          |  Sobre o Corpo Humano
+          i.fas.fa-info-circle
+        p O corpo humano é uma máquina fascinante e complexa. Composto por diversos sistemas que trabalham em harmonia, cada parte tem funções específicas e importantes para nossa sobrevivência e bem-estar.
+
+        .info-grid
+          .info-card
+            i.fas.fa-bone
+            h3 Esqueleto
+            p 206 ossos formam a estrutura do corpo humano, protegendo órgãos vitais e permitindo movimento.
+          
+          .info-card
+            i.fas.fa-heart
+            h3 Coração
+            p Bate cerca de 100.000 vezes por dia, bombeando sangue por aproximadamente 96.000 km de vasos sanguíneos.
+          
+          .info-card
+            i.fas.fa-lungs
+            h3 Pulmões
+            p Respiramos cerca de 20.000 vezes por dia, processando aproximadamente 10.000 litros de ar.
+
+      .fun-facts
+        .fact-item
+          i.fas.fa-lightbulb
+          | O cérebro humano tem cerca de 86 bilhões de neurônios
+        .fact-item
+          i.fas.fa-droplet
+          | O corpo humano é composto por 60% de água
+        .fact-item
+          i.fas.fa-clock
+          | As células da pele se renovam a cada 28 dias
+        .fact-item
+          i.fas.fa-ruler
+          | O osso mais longo é o fêmur, na coxa
+
+      .body-anatomy
+        .anatomy-item
+          i.fas.fa-microscope
+          span 12 Sistemas
+          small Trabalhando em conjunto
+        .anatomy-item
+          i.fas.fa-dna
+          span 37 Trilhões
+          small De células
+        .anatomy-item
+          i.fas.fa-heartbeat
+          span 100.000x/dia
+          small Batimentos cardíacos
+
+      footer
+        p 
+          i.fas.fa-heart
+          |  "O corpo humano é a obra-prima da natureza" 
+          i.fas.fa-heart
+        p Anatomia Interativa - Explore e aprenda
+        p 
+          i.far.fa-copyright
+          |  2024 - Todos os direitos reservados

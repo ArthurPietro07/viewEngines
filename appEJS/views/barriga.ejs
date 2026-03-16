@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barriga - Anatomia do Abdômen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '🫃';
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.1;
+            right: -20px;
+            bottom: -20px;
+            transform: rotate(15deg);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* Grid Principal */
+        .grid-principal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Card de Imagem */
+        .imagem-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .abdomen-ilustracao {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .orgaos-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+        }
+
+        .estomago {
+            width: 100px;
+            height: 130px;
+            background: #ff6b6b;
+            border-radius: 40% 40% 30% 30%;
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            animation: mexer 4s infinite;
+            transform-origin: center;
+        }
+
+        .figado {
+            width: 90px;
+            height: 70px;
+            background: #cc5b5b;
+            border-radius: 50% 50% 30% 30%;
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            transform: rotate(-10deg);
+            animation: pulsarFigado 3s infinite;
+        }
+
+        .intestinos {
+            width: 150px;
+            height: 100px;
+            background: #ff8e8e;
+            border-radius: 40% 40% 30% 30%;
+            position: absolute;
+            bottom: 30px;
+            left: 50px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 10px;
+        }
+
+        .intestinos::before {
+            content: '~~~~';
+            font-size: 2rem;
+            color: #fff;
+            opacity: 0.5;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes mexer {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            25% {
+                transform: scale(1.02) rotate(2deg);
+            }
+
+            75% {
+                transform: scale(0.98) rotate(-2deg);
+            }
+        }
+
+        @keyframes pulsarFigado {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(-10deg);
+            }
+
+            50% {
+                transform: scale(1.05) rotate(-8deg);
+            }
+        }
+
+        /* Cards de Informação */
+        .info-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h2 {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .info-lista {
+            list-style: none;
+        }
+
+        .info-lista li {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s;
+        }
+
+        .info-lista li:hover {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        /* Órgãos Grid */
+        .orgaos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .orgao-card {
+            background: white;
+            border-radius: 25px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .orgao-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #f5576c;
+            box-shadow: 0 20px 40px rgba(245, 87, 108, 0.3);
+        }
+
+        .orgao-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .orgao-card h3 {
+            color: #f5576c;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+
+        .orgao-card p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .orgao-card small {
+            display: block;
+            margin-top: 0.5rem;
+            color: #f093fb;
+            font-weight: 600;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Sistema Digestório */
+        .digestao {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .digestao h2 {
+            color: #f5576c;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .digestao-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .digestao-passo {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .digestao-passo:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #f5576c;
+        }
+
+        .passo-numero {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: bold;
+        }
+
+        /* Curiosidades */
+        .curiosidades {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .curiosidades h2 {
+            color: #f5576c;
+            margin-bottom: 1.5rem;
+        }
+
+        .curiosidades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .curiosidade-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #f5576c;
+        }
+
+        /* Navegação */
+        .navegacao {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .navegacao h3 {
+            color: #f5576c;
+            margin-bottom: 1.5rem;
+        }
+
+        .links-navegacao {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .link-parte {
+            padding: 1rem 2rem;
+            background: #f8f9fa;
+            border-radius: 50px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .link-parte:hover {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .btn-voltar {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: #f5576c;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+
+        .btn-voltar:hover {
+            background: transparent;
+            color: white;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .grid-principal {
+                grid-template-columns: 1fr;
+            }
+
+            .digestao-timeline {
+                flex-direction: column;
+            }
+
+            .digestao-passo:not(:last-child)::after {
+                content: '↓';
+                right: auto;
+                bottom: -20px;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/corpo">🏠 Corpo Humano</a>
+            <span>›</span>
+            <span>Barriga (Abdômen)</span>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <h1>🫃 BARRIGA</h1>
+            <p>O centro da digestão • Explorando os órgãos do abdômen</p>
+        </header>
+
+        <!-- Grid Principal -->
+        <div class="grid-principal">
+            <!-- Ilustração -->
+            <div class="imagem-card">
+                <div class="abdomen-ilustracao">
+                    <div class="orgaos-container">
+                        <div class="estomago"></div>
+                        <div class="figado"></div>
+                        <div class="intestinos"></div>
+                    </div>
+                    <p style="margin-top: 1rem; color: #666;">🫃 Órgãos em movimento</p>
+                </div>
+            </div>
+
+            <!-- Informações Rápidas -->
+            <div class="info-card">
+                <h2>
+                    <span>📊</span>
+                    Informações Rápidas
+                </h2>
+                <ul class="info-lista">
+                    <li><i>🫃</i> <strong>Estômago:</strong> 1,5 litros de capacidade</li>
+                    <li><i>🫁</i> <strong>Fígado:</strong> 500+ funções diferentes</li>
+                    <li><i>🥨</i> <strong>Intestino Delgado:</strong> 6-7 metros de comprimento</li>
+                    <li><i>🫘</i> <strong>Pâncreas:</strong> Produz 1,5L de suco pancreático/dia</li>
+                    <li><i>🫀</i> <strong>Baço:</strong> Filtra 250mg de sangue/minuto</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Órgãos do Abdômen -->
+        <h2 style="color: white; margin: 2rem 0 1rem;">🔬 Órgãos do Abdômen</h2>
+        <div class="orgaos-grid">
+            <div class="orgao-card">
+                <div class="orgao-icon">🫃</div>
+                <h3>Estômago</h3>
+                <p>Digere proteínas e mistura os alimentos com suco gástrico</p>
+                <small>pH 1.5 - 3.5</small>
+            </div>
+
+            <div class="orgao-card">
+                <div class="orgao-icon">🫁</div>
+                <h3>Fígado</h3>
+                <p>Processa nutrientes, produz bile e desintoxica o sangue</p>
+                <small>1,5 kg</small>
+            </div>
+
+            <div class="orgao-card">
+                <div class="orgao-icon">🥨</div>
+                <h3>Intestino Delgado</h3>
+                <p>Absorve nutrientes dos alimentos digeridos</p>
+                <small>6-7 metros</small>
+            </div>
+
+            <div class="orgao-card">
+                <div class="orgao-icon">🫘</div>
+                <h3>Pâncreas</h3>
+                <p>Produz insulina e enzimas digestivas</p>
+                <small>80-100g</small>
+            </div>
+
+            <div class="orgao-card">
+                <div class="orgao-icon">🫀</div>
+                <h3>Baço</h3>
+                <p>Filtra sangue e combate infecções</p>
+                <small>150-200g</small>
+            </div>
+
+            <div class="orgao-card">
+                <div class="orgao-icon">🥦</div>
+                <h3>Intestino Grosso</h3>
+                <p>Absorve água e forma as fezes</p>
+                <small>1,5 metros</small>
+            </div>
+        </div>
+
+        <!-- Processo Digestivo -->
+        <div class="digestao">
+            <h2>
+                <span>🔄</span>
+                Processo Digestivo
+            </h2>
+            <div class="digestao-timeline">
+                <div class="digestao-passo">
+                    <div class="passo-numero">1</div>
+                    <strong>Boca</strong>
+                    <p>Mastigação e saliva</p>
+                </div>
+                <div class="digestao-passo">
+                    <div class="passo-numero">2</div>
+                    <strong>Esôfago</strong>
+                    <p>Transporte</p>
+                </div>
+                <div class="digestao-passo">
+                    <div class="passo-numero">3</div>
+                    <strong>Estômago</strong>
+                    <p>Digestão química</p>
+                </div>
+                <div class="digestao-passo">
+                    <div class="passo-numero">4</div>
+                    <strong>Intestino</strong>
+                    <p>Absorção</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegação -->
+        <div class="navegacao">
+            <h3>🔍 Explorar outras partes do corpo</h3>
+            <div class="links-navegacao">
+                <a href="/corpo" class="link-parte">
+                    <span>🏠</span> Visão Geral
+                </a>
+                <a href="/corpo/cabeca" class="link-parte">
+                    <span>👤</span> Cabeça
+                </a>
+                <a href="" class="link-parte">
+                    <span>🫁</span> Tórax
+                </a>
+                <a href="" class="link-parte">
+                    <span>💪</span> Membros
+                </a>
+            </div>
+        </div>
+
+        <!-- Curiosidades -->
+        <div class="curiosidades">
+            <h2>✨ Curiosidades sobre o Abdômen</h2>
+            <div class="curiosidades-grid">
+                <div class="curiosidade-item">
+                    <strong>🔬 Comprimento total:</strong> Intestinos juntos têm ~8 metros
+                </div>
+                <div class="curiosidade-item">
+                    <strong>⚡ Produção diária:</strong> 1,5L de saliva + 2L de suco gástrico
+                </div>
+                <div class="curiosidade-item">
+                    <strong>🔄 Tempo de digestão:</strong> 24 a 72 horas
+                </div>
+                <div class="curiosidade-item">
+                    <strong>🦠 Bactérias:</strong> 100 trilhões no intestino
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="text-align: center;">
+            <a href="/corpo" class="btn-voltar">← Voltar para Visão Geral</a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🫃 Anatomia do Abdômen • Todos os direitos reservados</p>
+        </footer>
+    </div>
+</body>
+
+</html>

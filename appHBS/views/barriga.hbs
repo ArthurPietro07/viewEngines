@@ -1,0 +1,295 @@
+<!-- views/barriga.hbs -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barriga - Anatomia Humana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecf5 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateX(-5px);
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .organ-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .organ-item {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .organ-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.2);
+            border-color: #3498db;
+        }
+
+        .organ-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .organ-item h3 {
+            font-size: 1.8em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .organ-item p {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #2ecc71;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #95a5a6;
+            text-transform: uppercase;
+        }
+
+        .digestive-system {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f9ff;
+            border-radius: 20px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/corpo" class="back-button">← Voltar para Corpo Humano</a>
+
+        <header class="header">
+            <h1>🫀 Barriga (Torso)</h1>
+            <div class="divider"></div>
+            <p>Descubra os órgãos vitais que residem na região abdominal</p>
+        </header>
+
+        <div class="info-card">
+            <h2 style="font-size: 2em; margin-bottom: 30px; color: #3498db;">Órgãos Abdominais</h2>
+
+            <div class="organ-grid">
+                <div class="organ-item">
+                    <div class="organ-icon">🫀</div>
+                    <h3>Coração</h3>
+                    <p>Bomba muscular que impulsiona o sangue por todo o corpo. Bate cerca de 100.000 vezes por dia.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">60-100</div>
+                            <div class="stat-label">bpm (repouso)</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">7.500L</div>
+                            <div class="stat-label">sangue/dia</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="organ-item">
+                    <div class="organ-icon">🫁</div>
+                    <h3>Pulmões</h3>
+                    <p>Responsáveis pelas trocas gasosas, oxigenando o sangue e eliminando CO₂.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">12-20</div>
+                            <div class="stat-label">resp/min</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">6L</div>
+                            <div class="stat-label">capacidade</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="organ-item">
+                    <div class="organ-icon">🫁</div>
+                    <h3>Fígado</h3>
+                    <p>Maior órgão interno, responsável por mais de 500 funções vitais.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">1.5kg</div>
+                            <div class="stat-label">peso médio</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">500+</div>
+                            <div class="stat-label">funções</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="organ-item">
+                    <div class="organ-icon">🫁</div>
+                    <h3>Estômago</h3>
+                    <p>Órgão muscular que digere proteínas e mata bactérias com suco gástrico.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">1.5L</div>
+                            <div class="stat-label">capacidade</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1-4h</div>
+                            <div class="stat-label">digestão</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="organ-item">
+                    <div class="organ-icon">🫁</div>
+                    <h3>Intestinos</h3>
+                    <p>Delgado absorve nutrientes, grosso absorve água e forma as fezes.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">7m</div>
+                            <div class="stat-label">delgado</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1.5m</div>
+                            <div class="stat-label">grosso</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="organ-item">
+                    <div class="organ-icon">🫁</div>
+                    <h3>Rins</h3>
+                    <p>Filtram o sangue, removem toxinas e mantêm o equilíbrio de fluidos.</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-value">180L</div>
+                            <div class="stat-label">filtram/dia</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1.5L</div>
+                            <div class="stat-label">urina/dia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sistema Digestivo -->
+        <div class="digestive-system">
+            <h2 style="color: #2ecc71; margin-bottom: 20px;">🚀 Curiosidades do Sistema Digestivo</h2>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                <div style="background: white; padding: 20px; border-radius: 10px;">
+                    <h3 style="color: #3498db;">Tempo de Digestão</h3>
+                    <p>O processo digestivo completo leva de 24 a 72 horas, dependendo do tipo de alimento consumido.
+                    </p>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 10px;">
+                    <h3 style="color: #3498db;">Ácido Estomacal</h3>
+                    <p>O suco gástrico é tão ácido (pH 1.5-3.5) que poderia dissolver metais, mas a mucosa estomacal se
+                        protege com uma camada de muco.</p>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 10px;">
+                    <h3 style="color: #3498db;">Microbioma Intestinal</h3>
+                    <p>O intestino abriga cerca de 100 trilhões de bactérias, que pesam até 2kg e são essenciais para a
+                        saúde.</p>
+                </div>
+                <div style="background: white; padding: 20px; border-radius: 10px;">
+                    <h3 style="color: #3498db;">Área de Absorção</h3>
+                    <p>Se esticado, o intestino delgado cobriria uma área de aproximadamente 200m² - o tamanho de uma
+                        quadra de tênis!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

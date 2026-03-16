@@ -1,0 +1,527 @@
+//- views/barriga.pug
+doctype html
+html(lang="pt-BR")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Barriga/Tronco - Anatomia do Tronco Humano
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
+    style.
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        min-height: 100vh;
+        color: #fff;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 3rem;
+        animation: fadeInDown 1s ease;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      h1 i {
+        margin: 0 0.5rem;
+        color: #ffd700;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 0.8rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .back-button i {
+        margin-right: 0.5rem;
+      }
+
+      .back-button:hover {
+        background: rgba(255, 215, 0, 0.2);
+        transform: translateX(-5px);
+        border-color: #ffd700;
+      }
+
+      .torso-visualization {
+        display: flex;
+        justify-content: center;
+        margin: 3rem 0;
+        position: relative;
+      }
+
+      .torso-svg {
+        width: 300px;
+        height: 400px;
+        filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        animation: float 3s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+
+      .heart-beat {
+        animation: heartbeat 1.5s ease-in-out infinite;
+      }
+
+      @keyframes heartbeat {
+        0%, 100% { transform: scale(1); }
+        25% { transform: scale(1.1); }
+        35% { transform: scale(1); }
+        45% { transform: scale(1.05); }
+        55% { transform: scale(1); }
+      }
+
+      .lungs-move {
+        animation: breathe 4s ease-in-out infinite;
+      }
+
+      @keyframes breathe {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin: 2rem 0 1rem;
+        color: #ffd700;
+        border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        padding-bottom: 0.5rem;
+      }
+
+      .section-title i {
+        margin-right: 0.5rem;
+      }
+
+      .organs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+
+      .organ-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .organ-card:hover {
+        transform: translateY(-10px);
+        border-color: #ffd700;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      }
+
+      .organ-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.5s ease;
+      }
+
+      .organ-card:hover::before {
+        left: 100%;
+      }
+
+      .organ-icon {
+        font-size: 3rem;
+        color: #ffd700;
+        margin-bottom: 1rem;
+      }
+
+      .organ-name {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: #fff;
+      }
+
+      .organ-desc {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .organ-stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #ffd700;
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      .systems-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .system-item {
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .system-item:hover {
+        transform: scale(1.05);
+        border-color: #ffd700;
+      }
+
+      .system-item i {
+        font-size: 2.5rem;
+        color: #ffd700;
+        margin-bottom: 0.5rem;
+      }
+
+      .system-name {
+        font-size: 1.3rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .system-desc {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .organs-list {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem 0;
+      }
+
+      .organs-columns {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .organ-tag {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.8rem;
+        border-radius: 10px;
+        text-align: center;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .organ-tag:hover {
+        background: rgba(255, 215, 0, 0.2);
+        transform: translateY(-3px);
+        border-color: #ffd700;
+      }
+
+      .organ-tag i {
+        color: #ffd700;
+        margin-right: 0.5rem;
+      }
+
+      .fun-facts {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem 0;
+        border: 1px solid #ffd700;
+      }
+
+      .fact-item {
+        display: flex;
+        align-items: center;
+        margin: 1rem 0;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .fact-item:hover {
+        transform: translateX(10px);
+        background: rgba(255, 215, 0, 0.1);
+      }
+
+      .fact-item i {
+        color: #ffd700;
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        min-width: 30px;
+      }
+
+      .vital-signs {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        margin: 2rem 0;
+      }
+
+      .vital-item {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #ffd700;
+      }
+
+      .vital-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd700;
+      }
+
+      .vital-label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .navigation-links {
+        display: flex;
+        justify-content: space-between;
+        margin: 3rem 0;
+      }
+
+      .nav-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .nav-button i {
+        margin: 0 0.5rem;
+      }
+
+      .nav-button:hover {
+        background: #ffd700;
+        color: #c0392b;
+        transform: scale(1.05);
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        margin-top: 3rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+        
+        .container {
+          padding: 1rem;
+        }
+        
+        .organs-columns {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .vital-signs {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+  body
+    .container
+      a.back-button(href="/corpo")
+        i.fas.fa-arrow-left
+        | Voltar para Corpo Humano
+
+      header
+        h1
+          i.fas.fa-heart
+          |  Barriga/Tronco 
+          i.fas.fa-heart
+        .subtitle Explore a anatomia do tronco humano - O centro dos sistemas vitais
+
+      .torso-visualization
+        svg.torso-svg(viewBox="0 0 200 300")
+          //- Tronco
+          path(d="M70 40 L70 180 Q100 210 130 180 L130 40 Q100 60 70 40", fill="rgba(255,255,255,0.1)", stroke="#ffd700", stroke-width="2")
+          
+          //- Coração
+          path(d="M95 100 L100 90 L105 100 L115 100 L120 110 L100 130 L80 110 L85 100 L95 100", fill="rgba(255,215,0,0.3)", stroke="#ffd700", stroke-width="1.5", class="heart-beat")
+          
+          //- Pulmões
+          path(d="M70 70 Q60 90 70 110", fill="rgba(255,215,0,0.2)", stroke="#ffd700", stroke-width="1.5", class="lungs-move")
+          path(d="M130 70 Q140 90 130 110", fill="rgba(255,215,0,0.2)", stroke="#ffd700", stroke-width="1.5", class="lungs-move")
+          
+          //- Estômago
+          ellipse(cx="100", cy="140", rx="20", ry="15", fill="rgba(255,215,0,0.2)", stroke="#ffd700", stroke-width="1.5")
+          
+          //- Intestinos
+          path(d="M80 160 Q90 170 100 160 Q110 150 120 160", fill="none", stroke="#ffd700", stroke-width="1.5")
+          
+          //- Costelas
+          path(d="M50 50 L70 55 M50 70 L70 75 M50 90 L70 95", stroke="#ffd700", stroke-width="1", opacity="0.5")
+          path(d="M150 50 L130 55 M150 70 L130 75 M150 90 L130 95", stroke="#ffd700", stroke-width="1", opacity="0.5")
+
+      h2.section-title
+        i.fas.fa-microscope
+        | Órgãos Vitais
+
+      .organs-grid
+        .organ-card
+          .organ-icon
+            i.fas.fa-heart.heart-beat
+          .organ-name Coração
+          .organ-desc Bombeia sangue por todo o corpo, fornecendo oxigênio e nutrientes.
+          .organ-stats
+            .stat-item
+              .stat-value 100k
+              .stat-label Batidas/dia
+            .stat-item
+              .stat-value 7.500 L
+              .stat-label Sangue/dia
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-lungs.lungs-move
+          .organ-name Pulmões
+          .organ-desc Responsáveis pelas trocas gasosas, oxigenando o sangue.
+          .organ-stats
+            .stat-item
+              .stat-value 20k
+              .stat-label Respirações/dia
+            .stat-item
+              .stat-value 10k L
+              .stat-label Ar/dia
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-stomach
+          .organ-name Estômago
+          .organ-desc Órgão da digestão onde os alimentos são processados.
+          .organ-stats
+            .stat-item
+              .stat-value 1.5 L
+              .stat-label Capacidade
+            .stat-item
+              .stat-value 4h
+              .stat-label Digestão
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-kidneys
+          .organ-name Fígado
+          .organ-desc Processa nutrientes e filtra toxinas do sangue.
+          .organ-stats
+            .stat-item
+              .stat-value 500+
+              .stat-label Funções
+            .stat-item
+              .stat-value 1.5 kg
+              .stat-label Peso
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-intestine
+          .organ-name Intestinos
+          .organ-desc Absorvem nutrientes e água dos alimentos.
+          .organ-stats
+            .stat-item
+              .stat-value 7m
+              .stat-label Comprimento
+            .stat-item
+              .stat-value 90%
+              .stat-label Absorção
+
+        .organ-card
+          .organ-icon
+            i.fas.fa-bone
+          .organ-name Costelas
+          .organ-desc Protegem o coração e pulmões.
+          .organ-stats
+            .stat-item
+              .stat-value 12 pares
+              .stat-label Costelas
+            .stat-item
+              .stat-value 7
+              .stat-label Verdadeiras
+
+      h2.section-title
+        i.fas.fa-star
+        | Sistemas do Corpo
+
+      .systems-grid
+        .system-item
+          i.fas.fa-heartbeat
+          .system-name Cardiovascular

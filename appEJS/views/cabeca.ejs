@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabeça - Anatomia da Cabeça Humana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '👤';
+            position: absolute;
+            font-size: 8rem;
+            opacity: 0.1;
+            right: -20px;
+            bottom: -20px;
+            transform: rotate(15deg);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            margin: 0 0.5rem;
+        }
+
+        /* Grid Principal */
+        .grid-principal {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Card de Imagem */
+        .imagem-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .cabeca-ilustracao {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .cerebro {
+            width: 150px;
+            height: 150px;
+            background: #ff9a9e;
+            border-radius: 50% 50% 40% 40%;
+            position: relative;
+            animation: pulsar 3s infinite;
+        }
+
+        .cerebro::before,
+        .cerebro::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 100px;
+            background: #ff9a9e;
+            border-radius: 40% 40% 30% 30%;
+            top: 30px;
+        }
+
+        .cerebro::before {
+            left: -30px;
+            transform: rotate(-15deg);
+        }
+
+        .cerebro::after {
+            right: -30px;
+            transform: rotate(15deg);
+        }
+
+        .olhos {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .olho {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            animation: piscar 4s infinite;
+        }
+
+        .olho::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #333;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: moverOlho 5s infinite;
+        }
+
+        @keyframes pulsar {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes piscar {
+
+            0%,
+            96%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            98% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        @keyframes moverOlho {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%);
+            }
+
+            25% {
+                transform: translate(-30%, -50%);
+            }
+
+            75% {
+                transform: translate(-70%, -50%);
+            }
+        }
+
+        /* Cards de Informação */
+        .info-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .info-lista {
+            list-style: none;
+        }
+
+        .info-lista li {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s;
+        }
+
+        .info-lista li:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .info-lista li i {
+            font-size: 1.5rem;
+            width: 40px;
+        }
+
+        /* Estruturas da Cabeça */
+        .estruturas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .estrutura-item {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .estrutura-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .estrutura-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .estrutura-item h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .estrutura-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Sentidos */
+        .sentidos-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .sentido-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 1.5rem 0.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .sentido-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .sentido-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sentido-card h4 {
+            color: #667eea;
+            margin-bottom: 0.3rem;
+        }
+
+        .sentido-card p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Navegação para outras partes */
+        .navegacao-partes {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .navegacao-partes h3 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .links-navegacao {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .link-parte {
+            padding: 1rem 2rem;
+            background: #f8f9fa;
+            border-radius: 50px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .link-parte:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Curiosidades */
+        .curiosidades {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .curiosidades h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .curiosidades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .curiosidade-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        /* Botão Voltar */
+        .btn-voltar {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+
+        .btn-voltar:hover {
+            background: transparent;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .grid-principal {
+                grid-template-columns: 1fr;
+            }
+
+            .sentidos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/corpo">🏠 Corpo Humano</a>
+            <span>›</span>
+            <span>Cabeça</span>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <h1>👤 CABEÇA</h1>
+            <p>O centro do sistema nervoso e dos sentidos • Explorando a anatomia da cabeça humana</p>
+        </header>
+
+        <!-- Grid Principal -->
+        <div class="grid-principal">
+            <!-- Ilustração -->
+            <div class="imagem-card">
+                <div class="cabeca-ilustracao">
+                    <div class="cerebro"></div>
+                    <div class="olhos">
+                        <div class="olho"></div>
+                        <div class="olho"></div>
+                    </div>
+                    <p style="margin-top: 2rem; color: #666;">🧠 Cérebro em atividade</p>
+                </div>
+            </div>
+
+            <!-- Informações Rápidas -->
+            <div class="info-card">
+                <h2>
+                    <span>📊</span>
+                    Informações Rápidas
+                </h2>
+                <ul class="info-lista">
+                    <li><i>🧠</i> <strong>Cérebro:</strong> 86 bilhões de neurônios</li>
+                    <li><i>🦴</i> <strong>Crânio:</strong> 22 ossos (8 cranianos + 14 faciais)</li>
+                    <li><i>💪</i> <strong>Músculos:</strong> Mais de 30 músculos faciais</li>
+                    <li><i>👁️</i> <strong>Olhos:</strong> 120 milhões de bastonetes</li>
+                    <li><i>👂</i> <strong>Ouvidos:</strong> 20.000 células ciliadas</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Estruturas da Cabeça -->
+        <h2 style="color: white; margin: 2rem 0 1rem;">🔬 Principais Estruturas</h2>
+        <div class="estruturas-grid">
+            <div class="estrutura-item">
+                <div class="estrutura-icon">🧠</div>
+                <h3>Cérebro</h3>
+                <p>Processa informações, controla movimentos e pensamentos</p>
+            </div>
+            <div class="estrutura-item">
+                <div class="estrutura-icon">👁️</div>
+                <h3>Olhos</h3>
+                <p>Captam luz e permitem a visão</p>
+            </div>
+            <div class="estrutura-item">
+                <div class="estrutura-icon">👂</div>
+                <h3>Ouvidos</h3>
+                <p>Responsáveis pela audição e equilíbrio</p>
+            </div>
+            <div class="estrutura-item">
+                <div class="estrutura-icon">👃</div>
+                <h3>Nariz</h3>
+                <p>Permite o olfato e filtra o ar</p>
+            </div>
+            <div class="estrutura-item">
+                <div class="estrutura-icon">👄</div>
+                <h3>Boca</h3>
+                <p>Responsável pela fala e alimentação</p>
+            </div>
+        </div>
+
+        <!-- Os 5 Sentidos -->
+        <h2 style="color: white; margin: 2rem 0 1rem;">🌟 Os 5 Sentidos</h2>
+        <div class="sentidos-grid">
+            <div class="sentido-card">
+                <div class="sentido-icon">👁️</div>
+                <h4>Visão</h4>
+                <p>1 milhão de cores</p>
+            </div>
+            <div class="sentido-card">
+                <div class="sentido-icon">👂</div>
+                <h4>Audição</h4>
+                <p>20Hz a 20kHz</p>
+            </div>
+            <div class="sentido-card">
+                <div class="sentido-icon">👃</div>
+                <h4>Olftao</h4>
+                <p>1 trilhão de odores</p>
+            </div>
+            <div class="sentido-card">
+                <div class="sentido-icon">👅</div>
+                <h4>Paladar</h4>
+                <p>5 sabores básicos</p>
+            </div>
+            <div class="sentido-card">
+                <div class="sentido-icon">🖐️</div>
+                <h4>Tato</h4>
+                <p>Mais sensível no rosto</p>
+            </div>
+        </div>
+
+        <!-- Navegação para outras partes -->
+        <div class="navegacao-partes">
+            <h3>🔍 Explorar outras partes do corpo</h3>
+            <div class="links-navegacao">
+                <a href="/corpo" class="link-parte">
+                    <span>🏠</span> Visão Geral
+                </a>
+                <a href="/corpo/barriga" class="link-parte">
+                    <span>🫃</span> Barriga
+                </a>
+                <a href="" class="link-parte">
+                    <span>🫁</span> Tórax
+                </a>
+                <a href="" class="link-parte">
+                    <span>💪</span> Membros
+                </a>
+            </div>
+        </div>
+
+        <!-- Curiosidades -->
+        <div class="curiosidades">
+            <h2>✨ Curiosidades sobre a Cabeça</h2>
+            <div class="curiosidades-grid">
+                <div class="curiosidade-item">
+                    <strong>🧠 Peso do cérebro:</strong> Aproximadamente 1,4 kg
+                </div>
+                <div class="curiosidade-item">
+                    <strong>⚡ Velocidade neural:</strong> 120 m/s (432 km/h)
+                </div>
+                <div class="curiosidade-item">
+                    <strong>👁️ Piscadas:</strong> 15-20 vezes por minuto
+                </div>
+                <div class="curiosidade-item">
+                    <strong>🦷 Dentes:</strong> 32 dentes permanentes
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão Voltar -->
+        <div style="text-align: center;">
+            <a href="/corpo" class="btn-voltar">← Voltar para Visão Geral</a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>👤 Anatomia da Cabeça • Todos os direitos reservados</p>
+        </footer>
+    </div>
+</body>
+
+</html>
