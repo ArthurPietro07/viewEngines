@@ -1,0 +1,74 @@
+extends layout
+
+block content
+  .container
+    // Cabeçalho
+    .header
+      i.fas.fa-box.header-icon
+      h1= title
+      p Gerencie seus produtos de forma simples e eficiente
+    
+    // Cards com estatísticas
+    .stats-grid
+      .stat-card
+        .stat-icon 📦
+        .stat-info
+          span.stat-label Total de Produtos
+          span.stat-value= produtos.length
+      .stat-card
+        .stat-icon 💰
+        .stat-info
+          span.stat-label Preço Médio
+          - const media = produtos.reduce((acc, p) => acc + p.preco, 0) / produtos.length
+          span.stat-value= 'R$ ' + media.toFixed(2)
+      .stat-card
+        .stat-icon 🏷️
+        .stat-info
+          span.stat-label Produto Mais Caro
+          - const maisCaro = produtos.reduce((max, p) => p.preco > max.preco ? p : max, produtos[0])
+          span.stat-value= maisCaro.nome
+    
+    // Tabela de produtos
+    .table-container
+      .table-header
+        h2 Lista de Produtos
+        button.btn-primary
+          i.fas.fa-plus
+          | Novo Produto
+      
+      if produtos && produtos.length > 0
+        table.produtos-table
+          thead
+            tr
+              th ID
+              th Produto
+              th Preço
+              th Status
+              th Ações
+          tbody
+            each produto in produtos
+              tr
+                td.id-cell= produto.id
+                td.nome-cell
+                  .produto-info
+                    .produto-icone 📦
+                    .produto-nome= produto.nome
+                td.preco-cell
+                  .preco-principal= 'R$ ' + produto.preco.toFixed(2)
+                  - const parcelas = (produto.preco / 3).toFixed(2)
+                  .preco-parcelado ou 3x de R$ #{parcelas}
+                td.status-cell
+                  span.status-badge.status-ativo Ativo
+                td.acoes-cell
+                  button.btn-icon(title="Editar")
+                    i.fas.fa-edit
+                  button.btn-icon(title="Excluir")
+                    i.fas.fa-trash
+      else
+        .empty-state
+          .empty-icon 📭
+          h3 Nenhum produto encontrado
+          p Comece adicionando seu primeiro produto!
+          button.btn-primary
+            i.fas.fa-plus
+            | Adicionar Produto

@@ -3,15 +3,15 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('corpo', { title: 'Corpo' });
+  res.render('corpo/index', { title: 'Corpo' });
 });
 
 router.get('/cabeca', function(req, res, next) {
-  res.render('cabeca', { title: 'Cabeça' });
+  res.render('corpo/cabeca', { title: 'Cabeça' });
 });
 
 router.get('/barriga', function(req, res, next) {
-  res.render('barriga', { title: 'Barriga' });
+  res.render('corpo/barriga', { title: 'Barriga' });
 });
 
 
